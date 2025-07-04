@@ -39,9 +39,9 @@ const SignIn = () => {
     if (Object.keys(newErrors).length === 0) {
       toast({
         title: "Welcome back!",
-        description: "Redirecting to homepage...",
+        description: "Redirecting to navigation...",
       });
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => navigate("/navigation"), 1000);
     }
   };
 

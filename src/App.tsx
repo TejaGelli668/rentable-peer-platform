@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Navigation from "./pages/Navigation";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
@@ -16,6 +17,8 @@ import RequestPayout from "./pages/renter/RequestPayout";
 import ViewAnalytics from "./pages/renter/ViewAnalytics";
 import CustomerDashboard from "./pages/customer/CustomerDashboard";
 import ItemDetails from "./pages/customer/ItemDetails";
+import Cart from "./pages/customer/Cart";
+import PreviousPurchases from "./pages/customer/PreviousPurchases";
 import Payment from "./pages/customer/Payment";
 import Settings from "./pages/Settings";
 
@@ -29,6 +32,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/navigation" element={<Navigation />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/renter/dashboard" element={<RenterDashboard />} />
@@ -39,6 +43,8 @@ const App = () => (
           <Route path="/renter/viewanalytics" element={<ViewAnalytics />} />
           <Route path="/customer/dashboard" element={<CustomerDashboard />} />
           <Route path="/customer/item/:id" element={<ItemDetails />} />
+          <Route path="/customer/cart" element={<Cart />} />
+          <Route path="/customer/previous-purchases" element={<PreviousPurchases />} />
           <Route path="/customer/payment" element={<Payment />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />

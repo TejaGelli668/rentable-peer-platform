@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserCheck, Store, ArrowRight, Shield, Zap, Globe } from "lucide-react";
+import { Shield, Zap, Globe, Users, Handshake, Star } from "lucide-react";
 
 const Index = () => {
   return (
@@ -27,113 +27,103 @@ const Index = () => {
         <h1 className="text-6xl font-bold mb-6 text-gradient animate-fade-in">
           Share. Rent. Prosper.
         </h1>
-        <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto animate-fade-in">
-          Connect with your community through our peer-to-peer rental platform. 
-          Rent out your unused items or find exactly what you need from neighbors nearby.
+        <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto animate-fade-in">
+          RentHub is a revolutionary peer-to-peer rental platform that connects people who have items to share with those who need them. Turn your unused belongings into income while helping your community access affordable rentals.
         </p>
 
-        {/* Role Selection Cards */}
+        {/* Business Model Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-          <Card 
-            className="hover-lift cursor-pointer transition-all duration-300 border-2 hover:border-indigo-300 hover:shadow-xl"
-            data-screen="role-selection" 
-            data-role="renter"
-          >
-            <CardHeader className="pb-4">
+          <Card className="hover-lift">
+            <CardHeader>
               <div className="w-16 h-16 mx-auto mb-4 platform-gradient rounded-full flex items-center justify-center">
-                <Store className="w-8 h-8 text-white" />
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <CardTitle className="text-2xl">Become a Renter</CardTitle>
+              <CardTitle className="text-2xl">For Item Owners</CardTitle>
               <CardDescription className="text-lg">
-                Turn your unused items into income
+                Monetize your unused items safely and securely
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent>
               <ul className="text-left space-y-2 text-gray-600">
                 <li className="flex items-center gap-2">
                   <Shield className="w-4 h-4 text-green-500" />
-                  Secure payments & insurance
+                  Earn passive income from idle items
                 </li>
                 <li className="flex items-center gap-2">
                   <Zap className="w-4 h-4 text-green-500" />
-                  Easy listing management
+                  Easy listing and management tools
                 </li>
                 <li className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-green-500" />
-                  Reach local customers
+                  Insurance coverage for your items
                 </li>
               </ul>
-              <Link to="/signup" className="block">
-                <Button className="w-full platform-gradient hover:opacity-90 text-white">
-                  Start Renting Out
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
             </CardContent>
           </Card>
 
-          <Card 
-            className="hover-lift cursor-pointer transition-all duration-300 border-2 hover:border-cyan-300 hover:shadow-xl"
-            data-screen="role-selection" 
-            data-role="customer"
-          >
-            <CardHeader className="pb-4">
+          <Card className="hover-lift">
+            <CardHeader>
               <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
-                <UserCheck className="w-8 h-8 text-white" />
+                <Handshake className="w-8 h-8 text-white" />
               </div>
-              <CardTitle className="text-2xl">Become a Customer</CardTitle>
+              <CardTitle className="text-2xl">For Renters</CardTitle>
               <CardDescription className="text-lg">
-                Find and rent items from your community
+                Access anything you need without the commitment of buying
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent>
               <ul className="text-left space-y-2 text-gray-600">
                 <li className="flex items-center gap-2">
                   <Shield className="w-4 h-4 text-green-500" />
-                  Verified renters & items
+                  Save money on expensive purchases
                 </li>
                 <li className="flex items-center gap-2">
                   <Zap className="w-4 h-4 text-green-500" />
-                  Instant booking
+                  Try before you buy approach
                 </li>
                 <li className="flex items-center gap-2">
                   <Globe className="w-4 h-4 text-green-500" />
-                  Local pickup & delivery
+                  Contribute to sustainable consumption
                 </li>
               </ul>
-              <Link to="/signup" className="block">
-                <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white">
-                  Start Browsing
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
             </CardContent>
           </Card>
         </div>
 
-        {/* Features Grid */}
+        {/* How It Works */}
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <div className="text-center animate-fade-in">
             <div className="w-12 h-12 mx-auto mb-4 platform-gradient rounded-full flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
+              <span className="text-white font-bold">1</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Secure & Insured</h3>
-            <p className="text-gray-600">All rentals are protected with comprehensive insurance coverage</p>
+            <h3 className="text-xl font-semibold mb-2">List or Browse</h3>
+            <p className="text-gray-600">Owners list their items, renters browse and discover what they need</p>
           </div>
           <div className="text-center animate-fade-in">
             <div className="w-12 h-12 mx-auto mb-4 platform-gradient rounded-full flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
+              <span className="text-white font-bold">2</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Instant Connect</h3>
-            <p className="text-gray-600">Connect with verified community members instantly</p>
+            <h3 className="text-xl font-semibold mb-2">Connect & Rent</h3>
+            <p className="text-gray-600">Secure transactions with built-in insurance and verified users</p>
           </div>
           <div className="text-center animate-fade-in">
             <div className="w-12 h-12 mx-auto mb-4 platform-gradient rounded-full flex items-center justify-center">
-              <Globe className="w-6 h-6 text-white" />
+              <span className="text-white font-bold">3</span>
             </div>
-            <h3 className="text-xl font-semibold mb-2">Local Focus</h3>
-            <p className="text-gray-600">Support your local community while saving money</p>
+            <h3 className="text-xl font-semibold mb-2">Earn & Save</h3>
+            <p className="text-gray-600">Owners earn money, renters save money, everyone wins</p>
           </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="mt-16">
+          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+          <p className="text-lg text-gray-600 mb-8">Join thousands of users already sharing and renting on RentHub</p>
+          <Link to="/signup">
+            <Button size="lg" className="platform-gradient hover:opacity-90 text-white px-8 py-4 text-lg">
+              Join RentHub Today
+            </Button>
+          </Link>
         </div>
       </section>
     </div>

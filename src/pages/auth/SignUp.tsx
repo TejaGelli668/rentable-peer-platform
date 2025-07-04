@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, ArrowLeft } from "lucide-react";
+import { UserPlus, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
@@ -13,7 +13,6 @@ interface FormData {
   email: string;
   password: string;
   confirmPassword: string;
-  phone: string;
 }
 
 interface FormErrors {
@@ -21,7 +20,6 @@ interface FormErrors {
   email?: boolean;
   password?: boolean;
   confirmPassword?: boolean;
-  phone?: boolean;
 }
 
 const SignUp = () => {
@@ -29,8 +27,7 @@ const SignUp = () => {
     name: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    phone: ""
+    confirmPassword: ""
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const navigate = useNavigate();
@@ -49,10 +46,10 @@ const SignUp = () => {
     
     if (Object.keys(newErrors).length === 0) {
       toast({
-        title: "Account created!",
-        description: "Welcome to RentHub",
+        title: "Account created successfully!",
+        description: "Redirecting to navigation...",
       });
-      setTimeout(() => navigate("/"), 1000);
+      setTimeout(() => navigate("/navigation"), 1000);
     }
   };
 
@@ -70,10 +67,10 @@ const SignUp = () => {
               Back to Home
             </Link>
             <div className="w-16 h-16 mx-auto platform-gradient rounded-full flex items-center justify-center">
-              <User className="w-8 h-8 text-white" />
+              <UserPlus className="w-8 h-8 text-white" />
             </div>
-            <CardTitle className="text-2xl">Create Account</CardTitle>
-            <CardDescription>Join the RentHub community</CardDescription>
+            <CardTitle className="text-2xl">Sign Up</CardTitle>
+            <CardDescription>Join RentHub today</CardDescription>
           </CardHeader>
           
           <CardContent>
@@ -101,17 +98,6 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   className={errors.email ? "border-red-500" : ""}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  data-field="phone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
               </div>
 

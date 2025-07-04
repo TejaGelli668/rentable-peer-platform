@@ -16,7 +16,8 @@ import {
   Settings,
   LogOut,
   Heart,
-  Plus
+  Plus,
+  History
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,6 +30,8 @@ const CustomerDashboard = () => {
     priceRange: "",
     rating: ""
   });
+
+  const [cartCount, setCartCount] = useState(2);
 
   const [items] = useState([
     {
@@ -81,6 +84,7 @@ const CustomerDashboard = () => {
   const { toast } = useToast();
 
   const addToCart = (itemId: number) => {
+    setCartCount(prev => prev + 1);
     toast({
       title: "Added to cart!",
       description: "Item has been added to your cart.",
@@ -102,13 +106,21 @@ const CustomerDashboard = () => {
               <p className="text-sm text-gray-600">Find & Rent Amazing Items</p>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="relative">
-                <ShoppingCart className="w-4 h-4 mr-2" />
-                Cart
-                <Badge className="absolute -top-2 -right-2 w-5 h-5 rounded-full p-0 flex items-center justify-center text-xs bg-red-500">
-                  2
-                </Badge>
-              </Button>
+              <Link to="/customer/cart">
+                <Button variant="ghost" size="sm" className="relative">
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Cart
+                  <Badge className="absolute -top-2 -right-2 w-5 h-5 rounded-full p-0 flex items-center justify-center text-xs bg-red-500">
+                    {cartCount}
+                  </Badge>
+                </Button>
+              </Link>
+              <Link to="/customer/previous-purchases">
+                <Button variant="ghost" size="sm">
+                  <History className="w-4 h-4 mr-2" />
+                  My Rentals
+                </Button>
+              </Link>
               <Link to="/settings">
                 <Button variant="ghost" size="sm">
                   <Settings className="w-4 h-4 mr-2" />
