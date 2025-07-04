@@ -14,11 +14,13 @@ import {
   LogOut,
   Eye,
   Edit,
-  MoreHorizontal 
+  MoreHorizontal,
+  Trash2
 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const RenterDashboard = () => {
-  const [listings] = useState([
+  const [listings, setListings] = useState([
     {
       id: 1,
       name: "Professional Camera Kit",
@@ -48,6 +50,16 @@ const RenterDashboard = () => {
     }
   ]);
 
+  const { toast } = useToast();
+
+  const handleDeleteListing = (id: number) => {
+    setListings(listings.filter(listing => listing.id !== id));
+    toast({
+      title: "Listing deleted",
+      description: "Your listing has been removed successfully.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50">
       {/* Header */}
@@ -59,14 +71,18 @@ const RenterDashboard = () => {
               <p className="text-sm text-gray-600">Renter Dashboard</p>
             </div>
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-              <Button variant="ghost" size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
+              <Link to="/settings">
+                <Button variant="ghost" size="sm">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
+              <Link to="/">
+                <Button variant="ghost" size="sm">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -117,16 +133,22 @@ const RenterDashboard = () => {
 
         {/* Quick Actions */}
         <div className="flex gap-4 mb-8">
-          <Button className="platform-gradient hover:opacity-90 text-white" data-action="new-listing">
-            <Plus className="w-4 h-4 mr-2" />
-            Add New Listing
-          </Button>
-          <Button variant="outline" className="hover:bg-white/50">
-            Request Payout
-          </Button>
-          <Button variant="outline" className="hover:bg-white/50">
-            View Analytics
-          </Button>
+          <Link to="/renter/newlisting">
+            <Button className="platform-gradient hover:opacity-90 text-white" data-action="new-listing">
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Listing
+            </Button>
+          </Link>
+          <Link to="/renter/requestpayout">
+            <Button variant="outline" className="hover:bg-white/50">
+              Request Payout
+            </Button>
+          </Link>
+          <Link to="/renter/viewanalytics">
+            <Button variant="outline" className="hover:bg-white/50">
+              View Analytics
+            </Button>
+          </Link>
         </div>
 
         {/* Listings Table */}
@@ -166,14 +188,20 @@ const RenterDashboard = () => {
                     </div>
                     
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" title="View">
                         <Eye className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" title="Edit">
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal className="w-4 h-4" />
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        title="Delete"
+                        onClick={() => handleDeleteListing(listing.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
                   </div>

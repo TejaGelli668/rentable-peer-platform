@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ import {
   Heart,
   Plus
 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const CustomerDashboard = () => {
   const [searchFilters, setSearchFilters] = useState({
@@ -75,6 +77,20 @@ const CustomerDashboard = () => {
     }
   ]);
 
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const addToCart = (itemId: number) => {
+    toast({
+      title: "Added to cart!",
+      description: "Item has been added to your cart.",
+    });
+  };
+
+  const viewItemDetails = (itemId: number) => {
+    navigate(`/customer/item/${itemId}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50">
       {/* Header */}
@@ -93,14 +109,18 @@ const CustomerDashboard = () => {
                   2
                 </Badge>
               </Button>
-              <Button variant="ghost" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-              <Button variant="ghost" size="sm">
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
+              <Link to="/settings">
+                <Button variant="ghost" size="sm">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
+              <Link to="/">
+                <Button variant="ghost" size="sm">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -204,7 +224,7 @@ const CustomerDashboard = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-widget="results">
           {items.map((item) => (
             <Card key={item.id} className="hover-lift cursor-pointer group">
-              <div className="relative">
+              <div className="relative" onClick={() => viewItemDetails(item.id)}>
                 <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
                   <div className="text-gray-400 text-center">
                     <div className="w-16 h-16 bg-gray-300 rounded-lg mx-auto mb-2 flex items-center justify-center">
@@ -217,6 +237,7 @@ const CustomerDashboard = () => {
                   variant="ghost" 
                   size="sm" 
                   className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 hover:bg-white"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Heart className="w-4 h-4" />
                 </Button>
@@ -226,7 +247,7 @@ const CustomerDashboard = () => {
               </div>
               
               <CardContent className="p-4">
-                <div className="space-y-2">
+                <div className="space-y-2" onClick={() => viewItemDetails(item.id)}>
                   <div>
                     <h3 className="font-semibold line-clamp-1" data-field="name">{item.name}</h3>
                     <p className="text-sm text-gray-600" data-field="category">{item.category}</p>
@@ -244,16 +265,20 @@ const CustomerDashboard = () => {
                   </div>
                   
                   <p className="text-sm text-gray-600">by {item.renter}</p>
-                  
-                  <Button 
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white mt-3"
-                    data-action="add-to-cart"
-                    data-item-id={item.id}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add to Cart
-                  </Button>
                 </div>
+                
+                <Button 
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white mt-3"
+                  data-action="add-to-cart"
+                  data-item-id={item.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(item.id);
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add to Cart
+                </Button>
               </CardContent>
             </Card>
           ))}

@@ -12,11 +12,11 @@ const Index = () => {
         <nav className="flex justify-between items-center">
           <div className="text-2xl font-bold text-gradient">RentHub</div>
           <div className="flex gap-4">
-            <Link to="/renter/signin">
-              <Button variant="ghost" className="hover:bg-white/50">Renter Login</Button>
+            <Link to="/signin">
+              <Button variant="ghost" className="hover:bg-white/50">Sign In</Button>
             </Link>
-            <Link to="/customer/signin">
-              <Button variant="ghost" className="hover:bg-white/50">Customer Login</Button>
+            <Link to="/signup">
+              <Button className="platform-gradient hover:opacity-90 text-white">Sign Up</Button>
             </Link>
           </div>
         </nav>
@@ -63,7 +63,7 @@ const Index = () => {
                   Reach local customers
                 </li>
               </ul>
-              <Link to="/renter/signup" className="block">
+              <Link to="/signup" className="block">
                 <Button className="w-full platform-gradient hover:opacity-90 text-white">
                   Start Renting Out
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -101,7 +101,7 @@ const Index = () => {
                   Local pickup & delivery
                 </li>
               </ul>
-              <Link to="/customer/signup" className="block">
+              <Link to="/signup" className="block">
                 <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white">
                   Start Browsing
                   <ArrowRight className="w-4 h-4 ml-2" />
