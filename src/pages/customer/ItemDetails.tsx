@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Star, MapPin, Shield, Plus, Minus } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Shield, Plus, Minus, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const ItemDetails = () => {
@@ -36,6 +36,40 @@ const ItemDetails = () => {
       "Professional tripod",
       "Camera bag and accessories",
       "Memory cards included"
+    ],
+    customerReviews: [
+      {
+        id: 1,
+        customerName: "Sarah M.",
+        rating: 5,
+        date: "2024-06-15",
+        comment: "Amazing camera kit! Everything was in perfect condition and the quality exceeded my expectations. Perfect for my wedding photography session.",
+        verified: true
+      },
+      {
+        id: 2,
+        customerName: "Mike R.",
+        rating: 4,
+        date: "2024-06-10",
+        comment: "Great equipment, very professional setup. The only minor issue was that one lens cap was missing, but overall excellent experience.",
+        verified: true
+      },
+      {
+        id: 3,
+        customerName: "Emily L.",
+        rating: 5,
+        date: "2024-06-05",
+        comment: "Fantastic service! The camera worked perfectly for my event. John was very responsive and helpful throughout the rental process.",
+        verified: true
+      },
+      {
+        id: 4,
+        customerName: "David K.",
+        rating: 4,
+        date: "2024-05-28",
+        comment: "Good quality camera kit. Helped me complete my photography project successfully. Would definitely rent again.",
+        verified: false
+      }
     ]
   };
 
@@ -44,6 +78,17 @@ const ItemDetails = () => {
       title: "Added to cart!",
       description: `${item.name} has been added to your cart.`,
     });
+  };
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, index) => (
+      <Star
+        key={index}
+        className={`w-4 h-4 ${
+          index < rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+        }`}
+      />
+    ));
   };
 
   return (
@@ -184,6 +229,46 @@ const ItemDetails = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Customer Reviews Section */}
+        <div className="mt-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                Customer Reviews ({item.customerReviews.length})
+              </CardTitle>
+              <CardDescription>
+                See what other customers are saying about this item
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {item.customerReviews.map((review) => (
+                <div key={review.id} className="border-b border-gray-100 pb-4 last:border-b-0">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                      <User className="w-5 h-5 text-gray-500" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium">{review.customerName}</span>
+                        {review.verified && (
+                          <Badge variant="secondary" className="text-xs">Verified</Badge>
+                        )}
+                        <span className="text-sm text-gray-500">•</span>
+                        <span className="text-sm text-gray-500">{review.date}</span>
+                      </div>
+                      <div className="flex items-center gap-1 mb-2">
+                        {renderStars(review.rating)}
+                      </div>
+                      <p className="text-gray-700">{review.comment}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -11,13 +11,13 @@ import {
   MapPin, 
   Calendar, 
   Star, 
-  Filter,
   ShoppingCart,
   Settings,
   LogOut,
   Heart,
   Plus,
-  History
+  History,
+  X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -32,6 +32,8 @@ const CustomerDashboard = () => {
   });
 
   const [cartCount, setCartCount] = useState(2);
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [items] = useState([
     {
@@ -95,6 +97,23 @@ const CustomerDashboard = () => {
     navigate(`/customer/item/${itemId}`);
   };
 
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      toast({
+        title: "Searching...",
+        description: `Looking for "${searchQuery}"`,
+      });
+      // Here you would typically filter the items based on the search query
+    }
+    setShowSearch(false);
+  };
+
+  const filteredItems = items.filter(item =>
+    searchQuery === "" || 
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50">
       {/* Header */}
@@ -149,92 +168,105 @@ const CustomerDashboard = () => {
             <CardDescription>Search and filter items available in your area</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="relative">
-                <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                <Input
-                  placeholder="Location"
-                  data-field="location"
-                  value={searchFilters.location}
-                  onChange={(e) => setSearchFilters({...searchFilters, location: e.target.value})}
-                  className="pl-10"
-                />
+            {!showSearch ? (
+              <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <Input
+                    placeholder="Location"
+                    data-field="location"
+                    value={searchFilters.location}
+                    onChange={(e) => setSearchFilters({...searchFilters, location: e.target.value})}
+                    className="pl-10"
+                  />
+                </div>
+                
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <Input
+                    type="date"
+                    data-field="dateFrom"
+                    value={searchFilters.dateFrom}
+                    onChange={(e) => setSearchFilters({...searchFilters, dateFrom: e.target.value})}
+                    className="pl-10"
+                  />
+                </div>
+                
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                  <Input
+                    type="date"
+                    data-field="dateTo"
+                    value={searchFilters.dateTo}
+                    onChange={(e) => setSearchFilters({...searchFilters, dateTo: e.target.value})}
+                    className="pl-10"
+                  />
+                </div>
+                
+                <Select data-field="category">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="electronics">Electronics</SelectItem>
+                    <SelectItem value="outdoor">Outdoor</SelectItem>
+                    <SelectItem value="tools">Tools</SelectItem>
+                    <SelectItem value="kitchen">Kitchen</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Select data-field="price">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0-20">$0 - $20</SelectItem>
+                    <SelectItem value="20-50">$20 - $50</SelectItem>
+                    <SelectItem value="50-100">$50 - $100</SelectItem>
+                    <SelectItem value="100+">$100+</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              
-              <div className="relative">
-                <Calendar className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                <Input
-                  type="date"
-                  data-field="dateFrom"
-                  value={searchFilters.dateFrom}
-                  onChange={(e) => setSearchFilters({...searchFilters, dateFrom: e.target.value})}
-                  className="pl-10"
-                />
+            ) : (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+                    <Input
+                      placeholder="Search for items..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10"
+                      onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
+                    />
+                  </div>
+                  <Button onClick={handleSearchSubmit} className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white">
+                    Search
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowSearch(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
-              
-              <div className="relative">
-                <Calendar className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                <Input
-                  type="date"
-                  data-field="dateTo"
-                  value={searchFilters.dateTo}
-                  onChange={(e) => setSearchFilters({...searchFilters, dateTo: e.target.value})}
-                  className="pl-10"
-                />
-              </div>
-              
-              <Select data-field="category">
-                <SelectTrigger>
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="electronics">Electronics</SelectItem>
-                  <SelectItem value="outdoor">Outdoor</SelectItem>
-                  <SelectItem value="tools">Tools</SelectItem>
-                  <SelectItem value="kitchen">Kitchen</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              <Select data-field="price">
-                <SelectTrigger>
-                  <SelectValue placeholder="Price Range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0-20">$0 - $20</SelectItem>
-                  <SelectItem value="20-50">$20 - $50</SelectItem>
-                  <SelectItem value="50-100">$50 - $100</SelectItem>
-                  <SelectItem value="100+">$100+</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              <Select data-field="rating">
-                <SelectTrigger>
-                  <SelectValue placeholder="Rating" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="4+">4+ Stars</SelectItem>
-                  <SelectItem value="3+">3+ Stars</SelectItem>
-                  <SelectItem value="any">Any Rating</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            )}
             
-            <div className="flex gap-2 mt-4">
-              <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white">
-                <Search className="w-4 h-4 mr-2" />
-                Search Items
-              </Button>
-              <Button variant="outline">
-                <Filter className="w-4 h-4 mr-2" />
-                More Filters
-              </Button>
-            </div>
+            {!showSearch && (
+              <div className="flex gap-2 mt-4">
+                <Button 
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:opacity-90 text-white"
+                  onClick={() => setShowSearch(true)}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  Search Items
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         {/* Results Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-widget="results">
-          {items.map((item) => (
+          {filteredItems.map((item) => (
             <Card key={item.id} className="hover-lift cursor-pointer group">
               <div className="relative" onClick={() => viewItemDetails(item.id)}>
                 <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
