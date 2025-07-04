@@ -14,7 +14,6 @@ import {
   LogOut,
   Eye,
   Edit,
-  MoreHorizontal,
   Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -188,12 +187,16 @@ const RenterDashboard = () => {
                     </div>
                     
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="sm" title="View">
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" title="Edit">
-                        <Edit className="w-4 h-4" />
-                      </Button>
+                      <Link to={`/renter/item/${listing.id}`}>
+                        <Button variant="ghost" size="sm" title="View">
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                      </Link>
+                      <Link to={`/renter/edit/${listing.id}`}>
+                        <Button variant="ghost" size="sm" title="Edit">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </Link>
                       <Button 
                         variant="ghost" 
                         size="sm" 

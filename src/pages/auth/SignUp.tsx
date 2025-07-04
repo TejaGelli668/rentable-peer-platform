@@ -14,7 +14,6 @@ interface FormData {
   password: string;
   confirmPassword: string;
   phone: string;
-  role: 'renter' | 'customer';
 }
 
 interface FormErrors {
@@ -31,8 +30,7 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
-    role: 'customer'
+    phone: ""
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const navigate = useNavigate();
@@ -80,34 +78,6 @@ const SignUp = () => {
           
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label>I am a:</Label>
-                <div className="flex gap-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="customer"
-                      checked={formData.role === 'customer'}
-                      onChange={(e) => setFormData({...formData, role: e.target.value as 'customer' | 'renter'})}
-                      className="mr-2"
-                    />
-                    Customer
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="renter"
-                      checked={formData.role === 'renter'}
-                      onChange={(e) => setFormData({...formData, role: e.target.value as 'customer' | 'renter'})}
-                      className="mr-2"
-                    />
-                    Renter
-                  </label>
-                </div>
-              </div>
-
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input

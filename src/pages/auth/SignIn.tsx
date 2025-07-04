@@ -11,7 +11,6 @@ import { useToast } from "@/hooks/use-toast";
 interface FormData {
   email: string;
   password: string;
-  role: 'renter' | 'customer';
 }
 
 interface FormErrors {
@@ -22,8 +21,7 @@ interface FormErrors {
 const SignIn = () => {
   const [formData, setFormData] = useState<FormData>({
     email: "",
-    password: "",
-    role: 'customer'
+    password: ""
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const navigate = useNavigate();
@@ -41,9 +39,9 @@ const SignIn = () => {
     if (Object.keys(newErrors).length === 0) {
       toast({
         title: "Welcome back!",
-        description: `Redirecting to your ${formData.role} dashboard...`,
+        description: "Redirecting to homepage...",
       });
-      setTimeout(() => navigate(`/${formData.role}/dashboard`), 1000);
+      setTimeout(() => navigate("/"), 1000);
     }
   };
 
@@ -69,34 +67,6 @@ const SignIn = () => {
           
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label>I am a:</Label>
-                <div className="flex gap-4">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="customer"
-                      checked={formData.role === 'customer'}
-                      onChange={(e) => setFormData({...formData, role: e.target.value as 'customer' | 'renter'})}
-                      className="mr-2"
-                    />
-                    Customer
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="renter"
-                      checked={formData.role === 'renter'}
-                      onChange={(e) => setFormData({...formData, role: e.target.value as 'customer' | 'renter'})}
-                      className="mr-2"
-                    />
-                    Renter
-                  </label>
-                </div>
-              </div>
-
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
                 <Input

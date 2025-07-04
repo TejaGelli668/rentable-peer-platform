@@ -10,10 +10,13 @@ import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import RenterDashboard from "./pages/renter/RenterDashboard";
 import NewListing from "./pages/renter/NewListing";
+import EditListing from "./pages/renter/EditListing";
+import RenterItem from "./pages/renter/RenterItem";
 import RequestPayout from "./pages/renter/RequestPayout";
 import ViewAnalytics from "./pages/renter/ViewAnalytics";
 import CustomerDashboard from "./pages/customer/CustomerDashboard";
 import ItemDetails from "./pages/customer/ItemDetails";
+import Payment from "./pages/customer/Payment";
 import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
@@ -30,10 +33,13 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/renter/dashboard" element={<RenterDashboard />} />
           <Route path="/renter/newlisting" element={<NewListing />} />
+          <Route path="/renter/edit/:id" element={<EditListing />} />
+          <Route path="/renter/item/:id" element={<RenterItem />} />
           <Route path="/renter/requestpayout" element={<RequestPayout />} />
           <Route path="/renter/viewanalytics" element={<ViewAnalytics />} />
           <Route path="/customer/dashboard" element={<CustomerDashboard />} />
           <Route path="/customer/item/:id" element={<ItemDetails />} />
+          <Route path="/customer/payment" element={<Payment />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
