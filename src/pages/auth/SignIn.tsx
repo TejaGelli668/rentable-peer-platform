@@ -27,23 +27,45 @@ const SignIn = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const newErrors: FormErrors = {};
-    if (!formData.email) newErrors.email = true;
-    if (!formData.password) newErrors.password = true;
-    
-    setErrors(newErrors);
-    
-    if (Object.keys(newErrors).length === 0) {
-      toast({
-        title: "Welcome back!",
-        description: "Redirecting to navigation...",
-      });
-      setTimeout(() => navigate("/navigation"), 1000);
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const newErrors: FormErrors = {};
+  if (!formData.email) newErrors.email = true;
+  if (!formData.password) newErrors.password = true;
+
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) return;
+
+  try {
+    const response = await fetch("http://localhost:8080/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Invalid email or password");
     }
-  };
+
+    const data = await response.json();
+    localStorage.setItem("token", data.token); // Store JWT
+
+    toast({
+      title: "Welcome back!",
+      description: "Redirecting to dashboard...",
+    });
+
+    setTimeout(() => navigate("/navigation"), 1000);
+  } catch (err: any) {
+    toast({
+      title: "Login failed",
+      description: err.message || "Something went wrong",
+      variant: "destructive",
+    });
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 flex items-center justify-center p-4">

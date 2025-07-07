@@ -33,25 +33,53 @@ const SignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const newErrors: FormErrors = {};
-    if (!formData.name) newErrors.name = true;
-    if (!formData.email) newErrors.email = true;
-    if (!formData.password) newErrors.password = true;
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = true;
-    
-    setErrors(newErrors);
-    
-    if (Object.keys(newErrors).length === 0) {
-      toast({
-        title: "Account created successfully!",
-        description: "Redirecting to navigation...",
-      });
-      setTimeout(() => navigate("/navigation"), 1000);
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const newErrors: FormErrors = {};
+  if (!formData.name) newErrors.name = true;
+  if (!formData.email) newErrors.email = true;
+  if (!formData.password) newErrors.password = true;
+  if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = true;
+
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) return;
+
+  try {
+    const response = await fetch("http://localhost:8080/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: "RENTER", // or get dynamically from dropdown
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || "Signup failed");
     }
-  };
+
+    const data = await response.json();
+    localStorage.setItem("token", data.token); // Store JWT
+
+    toast({
+      title: "Account created successfully!",
+      description: "Redirecting to dashboard...",
+    });
+
+    setTimeout(() => navigate("/navigation"), 1000);
+  } catch (err: any) {
+    toast({
+      title: "Signup failed",
+      description: err.message || "An error occurred",
+      variant: "destructive",
+    });
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 flex items-center justify-center p-4">
